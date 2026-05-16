@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: shl-assessment-api
+    env: python
+    region: oregon # Or appropriate region
+    plan: free # Change to standard/pro for production
+    buildCommand: "pip install -r requirements.txt && python -m pipeline.ingest"
+    startCommand: "gunicorn -c gunicorn_conf.py app.main:app"
+    healthCheckPath: "/api/v1/health"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.13
+      - key: APP_ENV
+        value: production
+      - key: PORT
+        value: 8000
+      - key: LOG_LEVEL
+        value: INFO
+      - key: CHROMA_DB_DIR
+        value: ./chroma_db
+      - key: ALLOWED_ORIGINS
+        value: '["*"]' # Update this for production security
+      - key: API_KEY_SECRET
+        generateValue: true
