@@ -11,10 +11,11 @@ from app.config import get_settings
 
 def main() -> None:
     settings = get_settings()
+    import os
     uvicorn.run(
         "app.main:app",
-        host=settings.HOST,
-        port=settings.PORT,
+        host="0.0.0.0",
+        port=int(os.getenv("PORT", settings.PORT)),
         reload=settings.is_development,
         workers=settings.WORKERS if not settings.is_development else 1,
         log_level=settings.LOG_LEVEL.lower(),
