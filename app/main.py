@@ -87,6 +87,14 @@ def create_app() -> FastAPI:
     # ── Routers ──────────────────────────────────────────────────
     app.include_router(api_router, prefix="/api/v1")
 
+    # ── Root Health Probes ───────────────────────────────────────
+    # Render's default health check and port scanner sends a GET/HEAD request to the root path (/).
+    # If this returns 404, Render assumes the application is not ready and times out the deployment.
+    @app.get("/")
+    @app.head("/")
+    async def root_health_check():
+        return {"status": "ok", "service": settings.APP_NAME, "version": settings.APP_VERSION}
+
     return app
 
 
