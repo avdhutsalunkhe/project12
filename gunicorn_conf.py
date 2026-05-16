@@ -3,7 +3,8 @@ import os
 
 bind = f"0.0.0.0:{os.getenv('PORT', '8000')}"
 
-workers = multiprocessing.cpu_count() * 2 + 1
+workers = 1  # Strictly 1 worker for Render free tier (512MB RAM)
+preload_app = False  # Ensure lazy loading inside worker
 
 worker_class = "uvicorn.workers.UvicornWorker"
 

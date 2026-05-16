@@ -22,3 +22,5 @@ services:
         value: '["*"]' # Update this for production security
       - key: API_KEY_SECRET
         generateValue: true
+      - key: WEB_CONCURRENCY
+        value: "1"

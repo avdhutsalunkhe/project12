@@ -1,7 +1,7 @@
 """
 Central API router — aggregates all versioned endpoint routers.
 """
-
+	
 from fastapi import APIRouter
 
 from app.api.v1.endpoints.chat import router as chat_router

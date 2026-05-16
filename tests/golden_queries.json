@@ -1,0 +1,27 @@
+[
+    {
+        "query": "I need to hire a Java software developer.",
+        "expected_url": "https://www.shl.com/solutions/products/product-catalog/view/java-3-programming/",
+        "rationale": "Direct match for Java programming knowledge test."
+    },
+    {
+        "query": "Looking for a manager with good leadership and problem solving skills.",
+        "expected_url": "https://www.shl.com/solutions/products/product-catalog/view/management-and-leadership-scenarios/",
+        "rationale": "Matches management, leadership, and situational judgment."
+    },
+    {
+        "query": "We are hiring an entry level customer service rep. They need to handle angry customers well.",
+        "expected_url": "https://www.shl.com/solutions/products/product-catalog/view/customer-contact-scenario/",
+        "rationale": "Matches customer service and handling difficult situations."
+    },
+    {
+        "query": "Numerical reasoning test for a graduate, less than 20 minutes.",
+        "expected_url": "https://www.shl.com/solutions/products/product-catalog/view/verify-numerical-reasoning/",
+        "rationale": "Matches exact test type, level, and duration."
+    },
+    {
+        "query": "I need to test Python coding skills.",
+        "expected_url": "https://www.shl.com/solutions/products/product-catalog/view/python-3-programming/",
+        "rationale": "Direct semantic and keyword match for Python programming."
+    }
+]

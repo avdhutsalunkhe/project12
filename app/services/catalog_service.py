@@ -185,8 +185,8 @@ class CatalogService:
         Returns a list of assessment dicts enriched with `match_score`.
         """
         if not self._loaded:
-            logger.warning("Catalog not loaded — returning empty results")
-            return []
+            logger.info("Catalog not loaded — lazy loading now...")
+            self.load()
 
         # Get raw TF-IDF results (fetch extra to compensate for filtering)
         raw_results = self._index.search(query, top_k=max_results * 5)
@@ -225,6 +225,8 @@ class CatalogService:
 
     def get_by_name(self, name: str) -> Optional[Dict[str, Any]]:
         """Exact name lookup (case-insensitive)."""
+        if not self._loaded:
+            self.load()
         name_lower = name.lower()
         for a in self._assessments:
             if a.get("name", "").lower() == name_lower:
@@ -233,6 +235,8 @@ class CatalogService:
 
     def get_all_test_types(self) -> List[str]:
         """Return all unique test types in the catalog."""
+        if not self._loaded:
+            self.load()
         types = set()
         for a in self._assessments:
             if a.get("test_type"):
@@ -241,6 +245,8 @@ class CatalogService:
 
     def get_all_job_levels(self) -> List[str]:
         """Return all unique job levels in the catalog."""
+        if not self._loaded:
+            self.load()
         levels = set()
         for a in self._assessments:
             for level in a.get("job_levels", []):

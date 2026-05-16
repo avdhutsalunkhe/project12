@@ -36,26 +36,10 @@ async def lifespan(app: FastAPI):
     )
 
     # ── Startup logic ────────────────────────────────────────────
-    from app.services.catalog_service import catalog_service
-    catalog_service.load()
-    logger.info("Catalog ready: %d assessments indexed (TF-IDF)", catalog_service.total)
-
-    # Check vector store availability (non-blocking)
-    try:
-        from app.services.retrieval_service import retrieval_service
-        if retrieval_service.is_ready:
-            logger.info(
-                "Vector store ready: %d documents (semantic)",
-                retrieval_service.index_count,
-            )
-        else:
-            logger.warning("Vector store empty -- run 'python -m pipeline.ingest'")
-    except Exception as exc:
-        logger.warning("Vector store unavailable: %s", exc)
-
-    # Load hallucination prevention guard
-    from app.services.hybrid_ranker import hallucination_guard
-    hallucination_guard.load_catalog()
+    # For Render free tier, we completely bypass heavy startup initialization.
+    # Vector DB, embeddings, and TF-IDF catalog are lazy-loaded on the first request.
+    # This prevents OOM kills during boot and allows the /health endpoint to return instantly.
+    logger.info("Startup complete. Resources will be lazy-loaded on first request to conserve memory.")
 
     yield
 

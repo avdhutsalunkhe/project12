@@ -269,8 +269,8 @@ class HallucinationGuard:
         from app.services.catalog_service import catalog_service
 
         if not catalog_service.loaded:
-            logger.warning("Cannot load hallucination guard: catalog not loaded")
-            return
+            logger.info("Lazy loading catalog service for hallucination guard...")
+            catalog_service.load()
 
         for i in range(catalog_service.total):
             # Access assessments directly from the catalog
@@ -313,9 +313,8 @@ class HallucinationGuard:
           3. URL must exist in the canonical URL set
         """
         if not self._loaded:
-            # If guard isn't loaded, pass through but log warning
-            logger.warning("Hallucination guard not loaded — skipping validation")
-            return recommendations
+            logger.info("Hallucination guard not loaded — lazy loading now...")
+            self.load_catalog()
 
         validated: List[Dict[str, Any]] = []
 
